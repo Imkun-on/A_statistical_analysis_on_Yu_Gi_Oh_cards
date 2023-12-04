@@ -1,0 +1,878 @@
+fig = px.histogram(cards_na, x='level',
+                   color='level',
+                  category_orders={'level': category_orders})
+
+fig.update_layout(xaxis_title='Livello',
+                  yaxis_title='N° Carte',
+                 title_text="Distribuzione dei Livelli delle Carte",
+                legend_title_text='Livello',
+                title_x=0.5,
+                width=1200, 
+                height=700)
+fig.show()
+
+filtered_cards = cards.loc[(cards['level'] == 0)]
+
+filtered_cards[['name', 'race', 'level','atk', 'def','attribute','type']]
+
+fig = px.scatter(cards_na, x='atk',
+                 y='def',
+                 color='level',
+                 symbol= 'has_effect',
+                 hover_name = "type")
+
+fig.update_layout(legend=dict(orientation="h"))  
+
+fig.update_layout(xaxis_title='Valore Attacco',
+                  yaxis_title='Valore Difesa',
+                  title_text="Confronto dei valori di attacco e difesa per livello",
+                  legend_title_text='Ha effetto',
+                  title_x=0.5,
+                  width=1200,  
+                  height=800)
+
+fig.show()
+
+
+fig = px.histogram(filtered_cards, x="race", color="race", facet_col="type")
+
+fig.update_layout(yaxis_title='N° Carte',
+                 title_text="Distribuzione Carte Magia e Trappola",
+                legend_title_text='Tipologia',
+                title_x=0.5,
+                width=1500, 
+                height=700)
+
+fig.show()
+
+somma_per_attributo = filtered_cards.groupby('type')['upvotes'].sum().reset_index()
+somma_per_attributo = somma_per_attributo.sort_values(by='upvotes', ascending=False)
+somma_per_attributo
+
+
+custom_palette = {
+    "Fusion Monster": "#b768a2",
+    "Link Monster": "#483d8b",
+    "XYZ Monster": "#1a1a1a",
+    "Synchro Monster": "#c9c9c9",
+    "Synchro Tuner Monster": "#b3b3b3",
+    "Token": "#7a7a7a",
+    "Pendulum Effect Fusion Monster":"#a020f0",
+    "Synchro Pendulum Effect Monster":"#7d26cd",
+    "XYZ Pendulum Effect Monster":"#212121"}
+
+fig = px.histogram(filtered_fusion, x="type", color="type", color_discrete_map=custom_palette)
+
+fig.update_layout(
+    xaxis_title='Tipologia',
+    yaxis_title='N° Carte',
+    title_text="Quali carte sono più frequenti nell'extra deck?",
+    legend_title_text='Tipologia',
+    title_x=0.5,
+    width=1500,  
+    height=700
+)
+
+fig.update_xaxes(categoryorder='total descending')
+
+fig.show()
+
+somma_per_attributo1 = filtered_fusion.groupby('type')['upvotes'].sum().reset_index()
+somma_per_attributo1 = somma_per_attributo1.sort_values(by='upvotes', ascending=False)
+somma_per_attributo1
+
+
+fig = px.histogram(filtered_main, x="type", color="type")
+
+fig.update_layout(yaxis_title='N° Carte',
+                  xaxis_title='Tipologia',
+                 title_text="Quali tipologia di mostro è più frequente?",
+                legend_title_text='Tipologia',
+                title_x=0.5,
+                width=1500, 
+                height=700)
+
+fig.update_xaxes(categoryorder='total descending')
+
+fig.show()
+
+somma_per_attributo2 = filtered_main.groupby('type')['upvotes'].sum().reset_index()
+somma_per_attributo2 = somma_per_attributo2.sort_values(by='upvotes', ascending=False)
+somma_per_attributo2
+
+custom_palette = {
+    "DARK": "#5d3954",
+    "EARTH": "#cd853f",
+    "LIGHT": "#fedf00",
+    "WATER": "#00b2ee",
+    "WIND": "#00ff7f",
+    "FIRE": "#ff0000",
+    "DIVINE":"#ffae42"}
+
+
+fig = px.histogram(cards_na, x='attribute',
+                   color='attribute', color_discrete_map=custom_palette)
+
+fig.update_layout(xaxis_title='Attributo',
+                  yaxis_title='Frequenza',
+                 title_text="Quale attributo è il più frequente e quale meno?",
+                legend_title_text='Attributo',
+                title_x=0.5,
+                width=1200,  
+                height=700)
+
+fig.update_xaxes(categoryorder='total descending')
+
+fig.show()
+
+somma_per_attributo3 = cards.groupby('attribute')['upvotes'].sum().reset_index()
+somma_per_attributo3 = somma_per_attributo3.sort_values(by='upvotes', ascending=False)
+
+custom_palette = {
+    "DARK": "#5d3954",
+    "EARTH": "#cd853f",
+    "LIGHT": "#fedf00",
+    "WATER": "#00b2ee",
+    "WIND": "#00ff7f",
+    "FIRE": "#ff0000",
+    "DIVINE":"#ffae42"}
+
+fig = px.histogram(somma_per_attributo3, x='attribute', color='attribute', color_discrete_map=custom_palette, y='upvotes', title="Somma delle Votazioni Visive per Attributo")
+
+fig.update_layout(xaxis_title='Attributo',
+                  yaxis_title='Frequenza',
+                 title_text="Quale attributo è il più preferito e quale meno?",
+                legend_title_text='Attributo',
+                title_x=0.5,
+                width=1200,  
+                height=700)
+
+fig.show()
+
+
+somma_per_attributo4 = cards_na.groupby('race')['upvotes'].sum().reset_index()
+somma_per_attributo4 = somma_per_attributo4.sort_values(by='upvotes', ascending=False)
+somma_per_attributo4
+
+fig = px.histogram(cards_na, x='race',
+                   color='race')
+
+fig.update_layout(xaxis_title='Razza',
+                  yaxis_title='N° Carte',
+                 title_text="Quale razza è la più comune e quale meno?",
+                legend_title_text='Razza',
+                  width=1200, 
+                  height=800,
+                  title_x=0.5)
+
+fig.update_xaxes(tickangle=45)
+
+fig.update_xaxes(categoryorder='total descending')
+
+fig.show()
+
+
+fig = px.scatter(cards, x='upvotes', y='views', color='type', 
+                 symbol="has_effect")
+
+# Etichette degli assi e del titolo
+fig.update_layout(xaxis_title='Voti Positivi',
+                  yaxis_title='Visualizzazioni',
+                  title_text="Le carte con effetto tendono ad essere più quotate ed al tempo stesso visualizzate?",
+                  legend_title_text='Tipologia',
+                  title_x=0.5,
+                  width=1200, 
+                  height=850)
+
+fig.show()
+
+
+filtered_cards = cards.loc[(cards['upvotes'] <= 2608) & (cards['upvotes'] >= 423)]
+
+filtered_columns = filtered_cards[['name', 'upvotes', 'views']]
+
+filtered_columns.sort_values(by='upvotes', ascending=False)
+
+fig = px.scatter(cards, x='downvotes', y='views', color='type', 
+                 symbol="has_effect")
+
+fig.update_layout(xaxis_title='Voti Negativi',
+                  yaxis_title='Visualizzazioni',
+                  title_text="Le carte con effetto recensite in modo negativo sono anche le più discusse?",
+                  legend_title_text='Tipologia',
+                  title_x=0.5,
+                  width=1200, 
+                  height=850)
+
+fig.show()
+
+filtered_cards = cards.loc[(cards['downvotes'] <= 533) & (cards['downvotes'] >= 109)]
+
+filtered_columns = filtered_cards[['name', 'downvotes', 'views','ban_tcg','ban_ocg','ban_goat']]
+
+filtered_columns.sort_values(by='downvotes', ascending=True)
+
+filtered_cards = cards.loc[(cards['name'] == 'Ash Blossom & Joyous Spring')]
+
+filtered_cards[['name', 'type', 'desc','attribute','views','upvotes','downvotes','id']]
+
+fig = px.scatter(banned_cards2, x='ban_ocg', y='name', color='type', symbol="has_effect", hover_name = "race")
+
+fig.update_layout(xaxis_title='Ban_ocg',
+                  yaxis_title='Nome della Carta',
+                  title_text="Quali carte rientrano nella categoria Proibite/Limitate? (Ocg)",
+                  legend_title_text='Tipologia',
+                  title_x=0.5,
+                  width=1200,  
+                  height=850)
+fig.update_yaxes(showticklabels=False)
+
+fig.show()
+
+fig = px.scatter(banned_cards, x='ban_tcg', y='name', color='type', symbol="has_effect", hover_name = "race")
+
+fig.update_layout(xaxis_title='Ban_Tcg',
+                  yaxis_title='Nome della Carta',
+                  title_text="Quali carte rientrano ndella categoria Proibite/Limitate? (Tcg)",
+                  legend_title_text='Tipologia',
+                  title_x=0.5,
+                  width=1200,  
+                  height=850)
+fig.update_yaxes(showticklabels=False)
+
+fig.show()
+
+
+def is_trap_card(description):
+    phrases = [
+        "This card is also still a Trap",
+        "This card is NOT treated as a Trap",
+        "This card is also a Trap Card",
+        "This card is treated as a Trap Card",
+        "This card is still treated as a Trap Card",
+        "This card is also still a Trap Card",
+        "This card is NOT treated as a Trap Card"
+    ]
+    return any(phrase in description for phrase in phrases)
+
+
+trap_cards = cards[cards['desc'].apply(is_trap_card)]
+
+filtered_cards = trap_cards.loc[(trap_cards['race'] == 'Continuous') | (trap_cards['race'] == 'Normal')]
+
+filtered_columns = filtered_cards[['name', 'type', 'desc','race','upvotes']]
+
+pd.reset_option('display.max_rows')
+filtered_columns.sort_values(by='name', ascending=True)
+
+merged_data = cards.merge(card_set_relation, on='id')
+
+fig = px.histogram(merged_data, y='set_rarity', color='set_rarity')
+
+fig.update_yaxes(categoryorder='total ascending') 
+
+fig.update_layout(
+    title='Tipologie di Rarità delle Carte',
+    xaxis_title='N° Carte',
+    yaxis_title='Tipologia di Rarità',
+    autosize=False,
+    title_x=0.5,
+    width=1500,  
+    height=900  
+)
+
+fig.show()
+
+filtered_cards = merged_data.loc[(merged_data['set_rarity'] == '10000 Secret Rare') | (merged_data['set_rarity'] == 'Ultra Secret Rare') | (merged_data['set_rarity'] == 'c') | (merged_data['set_rarity'] == 'Super') | (merged_data['set_rarity'] == 'Duel Terminal Normal Rare Parallel Rare')]
+
+filtered_cards[['name', 'type', 'desc','attribute','views','upvotes','downvotes','set_rarity']]
+
+filtered_cards = merged_data.loc[(merged_data['name'] == 'Minerva, the Exalted Lightsworn') | (merged_data['name'] == 'Blue-Eyes White Dragon') | (merged_data['name'] == 'Tyler the Great Warrior') | (merged_data['name'] == 'Dark Magician') | (merged_data['name'] == 'Crush Card Virus') | (merged_data['name'] == 'Cyber-Stein')]
+
+filtered_cards[['name', 'type', 'desc','attribute','views','upvotes','downvotes','set_rarity','id']]
+
+cards['count'] = 1
+
+cards['staple'] = cards['staple'].fillna('No')
+
+staple_counts = cards.groupby('staple')['count'].sum().reset_index()
+
+staple_counts = staple_counts.rename(columns={'count': 'Count'})
+
+print(staple_counts)
+
+staple_type_counts = cards.groupby(['type', 'staple'])['count'].sum().reset_index()
+
+staple_type_counts = staple_type_counts[staple_type_counts['staple'] == 'Yes']
+
+staple_type_counts = staple_type_counts.rename(columns={'count': 'Count'})
+
+custom_palettes = {
+    "Spell Card": "#c9c9c9",
+    "Link Monster": "#b768a2",
+    "XYZ Monster": "#000000", 
+    "Effect Monster": "#FF9912",
+    "Tuner Monster": "#b3b3b3", 
+    "Trap Card": "#1a1a1a", 
+    "Fusion Monster": "#7a7a7a"}
+
+fig = px.pie(staple_type_counts, values='Count', names='type', color_discrete_map=custom_palettes)
+
+fig.update_layout(
+    title="Distribuzione di Staple Card per Tipo",
+    legend_title="Tipologia",
+    title_x=0.5,
+    width=900,
+    height=600
+)
+
+fig.show()
+
+filtered_cards = cards.loc[(cards['staple'] == 'Yes')]
+
+filtered_columns = filtered_cards[['name', 'type', 'upvotes', 'views','ban_tcg','ban_ocg','staple']]
+
+filtered_columns.sort_values(by='upvotes', ascending=True)
+
+cards_nas = cards.dropna(subset=['treated_as'])
+
+type_counts = cards_nas['type'].value_counts().reset_index()
+type_counts.columns = ['type', 'Count']
+
+fig = px.pie(type_counts, values='Count', names='type')
+
+fig.update_layout(
+    title="Percentuale di Treated_as Card per Tipo",
+    legend_title="Tipologia",
+    title_x=0.5,
+    width=800,
+    height=800
+)
+
+fig.show()
+
+cards_nas = cards_nas.dropna(subset=['treated_as'])
+cards_nas['treated_as'] = 'Yes'
+
+filtered_cards = cards_nas.loc[(cards_nas['treated_as'] == 'Yes')]
+
+filtered_columns = filtered_cards[['name', 'type', 'upvotes', 'views','ban_tcg','ban_ocg','treated_as','staple']]
+
+filtered_columns.sort_values(by='upvotes', ascending=True)
+
+words = pd.read_csv("cards.csv", usecols=["desc"])
+words.head()
+
+text = " ".join(review for review in words.desc)
+print ("La variabile 'desc' contiene in totale {} parole.".format(len(text)))
+
+all_descriptions = ' '.join(words['desc'].astype(str))
+
+words1 = all_descriptions.split()
+
+word_counts = Counter(words1)
+
+top_words = word_counts.most_common(20)
+
+for word, count in top_words:
+    print(f"La parola {word} è presente {count} volte")
+
+stopwords = set(STOPWORDS)
+stopwords.update(["per"]) 
+
+aporia_mask = np.array(Image.open("C:/Users/miane/OneDrive/Desktop/AporiaMD (1).png"))
+
+def transform_format(val):
+    if val == 0:
+        return 255
+    else:
+        return val
+
+transformed_aporia_mask = np.vectorize(transform_format)(aporia_mask)
+
+text = text.lower()
+# Create a word cloud image
+wc = WordCloud(max_words=1000, mask=transformed_aporia_mask,
+               stopwords=stopwords, contour_width=2.0, contour_color='firebrick')
+
+wc.generate(text) 
+
+wc.to_file("C:/Users/miane/OneDrive/Desktop/AporiaMD (1).png")
+
+plt.figure(figsize=[20,10])
+plt.imshow(wc, interpolation='bilinear')
+plt.axis("off")
+plt.show()
+
+cards['ocg_date'] = pd.to_datetime(cards['ocg_date'])
+
+date_ranges = [
+    ('Yu-Gi-Oh!', '1999-02-04', '2004-12-30'),
+    ('Yu-Gi-Oh! GX', '2005-01-20', '2008-03-08'),
+    ('Yu-Gi-Oh! 5D', '2008-03-15', '2011-02-26'),
+    ('Yu-Gi-Oh! Zexal', '2011-03-19', '2014-03-20'),
+    ('Yu-Gi-Oh! Arc-V', '2014-03-21', '2017-03-24'),
+    ('Yu-Gi-Oh! VRAINS', '2017-03-25', '2020-04-02'),
+    ('Yu-Gi-Oh! Sevens', '2020-04-04', '2023-12-23')
+]
+
+sub_datasets = {}
+for series, start_date, end_date in date_ranges:
+    sub_dataset = cards[(cards['ocg_date'] >= start_date) & (cards['ocg_date'] <= end_date)]
+    sub_datasets[series] = sub_dataset
+
+
+colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2']
+
+color_dict = {series: color for (series, _, _), color in zip(date_ranges, colors)}
+
+for series, start_date, end_date in date_ranges:
+    cards.loc[(cards['ocg_date'] >= start_date) & (cards['ocg_date'] <= end_date), 'serie'] = series
+
+cards = cards.dropna(subset=['serie'])
+
+fig = px.histogram(cards, x='ocg_date', color='serie', nbins=50, title='Distribuzione delle date OCG',
+                   labels={'ocg_date': 'Data OCG', 'count': 'Numero di carte'})
+
+fig.update_layout(
+    autosize=False,
+    width=1500, 
+    height=600,
+bargap=0.2)
+
+fig.show()
+
+yugioh = sub_datasets['Yu-Gi-Oh!']
+
+len(yugioh)
+
+yugioh.isna().sum()
+
+counts = yugioh['formats'].value_counts()
+print("Conteggio dei valori univoci nella variabile 'attributo':")
+print(counts)
+
+yugioh_na = yugioh.dropna(subset=['level', 'attribute'])
+
+filtered_cards = yugioh[(yugioh['type'].isin(['Spell Card', 'Trap Card'])) & (yugioh['race'].isin(['Continuous', 'Counter','Countinuous','Normal','Equip','Field','Ritual','Quick-Play']))]
+filtered_fusion = yugioh[(yugioh['type'].isin(['Fusion Monster', 'Link Monster', 'XYZ Monster','Synchro Monster','Synchro Tuner Monster', 'Pendulum Effect Fusion Monster','Synchro Pendulum Effect Monster','Pendulum Effect Fusion Monster','Token','XYZ Pendulum Effect Monster']))] 
+filtered_main = yugioh[(yugioh['type'].isin(['Effect Monster','Normal Monster','Flip Effect Monster','Union Effect Monster','Pendulum Effect Monster','Tuner Monster','Gemini Monster','Normal Tuner Monster','Spirit Monster','Ritual Effect Monster','Skill Card','Ritual Monster','Toon Monster','Pendulum Normal Monster','Pendulum Tuner Effect Monster','Pendulum Effect Ritual Monster','Pendulum Flip Effect Monster']))]
+
+conteggio_tipologia_per_razza = filtered_cards.groupby(['race', 'type']).size().reset_index(name='conteggio')
+
+mostri = conteggio_tipologia_per_razza[conteggio_tipologia_per_razza['type'] == 'Spell Card']
+trappole = conteggio_tipologia_per_razza[conteggio_tipologia_per_razza['type'] == 'Trap Card']
+
+print("Numero di carte di tipo 'Magia' per razza:")
+print(mostri)
+
+print("\nNumero di carte di tipo 'Trappola' per razza:")
+print(trappole)
+
+conteggio_tipologie = filtered_fusion['type'].value_counts().reset_index()
+conteggio_tipologie.columns = ['Tipo di Carta', 'Conteggio']
+
+conteggio_tipologie = conteggio_tipologie.sort_values(by='Conteggio', ascending=False)
+conteggio_tipologie
+
+conteggio_tipologie = filtered_main['type'].value_counts().reset_index()
+conteggio_tipologie.columns = ['Tipo di Carta', 'Conteggio']
+
+conteggio_tipologie = conteggio_tipologie.sort_values(by='Conteggio', ascending=False)
+conteggio_tipologie
+
+fig = px.histogram(yugioh_na, x='race',
+                   color='race')
+
+fig.update_layout(xaxis_title='Razza',
+                  yaxis_title='N° Carte',
+                 title_text="Quale razza è più frequente e quale meno?",
+                legend_title_text='Razza',
+                title_x=0.5,
+                width=1200,  
+                height=700)
+
+fig.update_xaxes(categoryorder='total descending')
+
+fig.show()
+
+yugiohgx = sub_datasets['Yu-Gi-Oh! GX']
+
+gx_na = yugiohgx.dropna(subset=['level', 'attribute'])
+
+len(yugiohgx)
+
+counts = yugiohgx['formats'].value_counts()
+print("Conteggio dei valori univoci nella variabile 'attributo':")
+print(counts)
+
+filtered_cards = yugiohgx[(yugiohgx['type'].isin(['Spell Card', 'Trap Card'])) & (yugiohgx['race'].isin(['Continuous', 'Counter','Countinuous','Normal','Equip','Field','Ritual','Quick-Play']))]
+filtered_fusion = yugiohgx[(yugiohgx['type'].isin(['Fusion Monster', 'Link Monster', 'XYZ Monster','Synchro Monster','Synchro Tuner Monster', 'Pendulum Effect Fusion Monster','Synchro Pendulum Effect Monster','Pendulum Effect Fusion Monster','Token','XYZ Pendulum Effect Monster']))] 
+filtered_main = yugiohgx[(yugiohgx['type'].isin(['Effect Monster','Normal Monster','Flip Effect Monster','Union Effect Monster','Pendulum Effect Monster','Tuner Monster','Gemini Monster','Normal Tuner Monster','Spirit Monster','Ritual Effect Monster','Skill Card','Ritual Monster','Toon Monster','Pendulum Normal Monster','Pendulum Tuner Effect Monster','Pendulum Effect Ritual Monster','Pendulum Flip Effect Monster']))]
+
+conteggio_tipologia_per_razza = filtered_cards.groupby(['race', 'type']).size().reset_index(name='conteggio')
+
+mostri = conteggio_tipologia_per_razza[conteggio_tipologia_per_razza['type'] == 'Spell Card']
+trappole = conteggio_tipologia_per_razza[conteggio_tipologia_per_razza['type'] == 'Trap Card']
+
+print("Numero di carte di tipo 'Magia' per razza:")
+print(mostri)
+
+print("\nNumero di carte di tipo 'Trappola' per razza:")
+print(trappole)
+
+conteggio_tipologie = filtered_fusion['type'].value_counts().reset_index()
+conteggio_tipologie.columns = ['Tipo di Carta', 'Conteggio']
+
+conteggio_tipologie = conteggio_tipologie.sort_values(by='Conteggio', ascending=False)
+conteggio_tipologie
+
+conteggio_tipologie = filtered_main['type'].value_counts().reset_index()
+conteggio_tipologie.columns = ['Tipo di Carta', 'Conteggio']
+
+conteggio_tipologie = conteggio_tipologie.sort_values(by='Conteggio', ascending=False)
+conteggio_tipologie
+
+fig = px.histogram(gx_na, x='race',
+                   color='race')
+
+fig.update_layout(xaxis_title='Razza',
+                  yaxis_title='N° Carte',
+                 title_text="Quale razza è più frequente e quale meno?",
+                legend_title_text='Razza',
+                title_x=0.5,
+                width=1200,  # Imposta la larghezza del grafico
+                height=700)
+
+fig.update_xaxes(categoryorder='total descending')
+
+fig.show()
+
+yugioh_5d = sub_datasets['Yu-Gi-Oh! 5D']
+
+filtered_cards = yugioh_5d[(yugioh_5d['type'].isin(['Spell Card', 'Trap Card'])) & (yugioh_5d['race'].isin(['Continuous', 'Counter','Countinuous','Normal','Equip','Field','Ritual','Quick-Play']))]
+filtered_fusion = yugioh_5d[(yugioh_5d['type'].isin(['Fusion Monster', 'Link Monster', 'XYZ Monster','Synchro Monster','Synchro Tuner Monster', 'Pendulum Effect Fusion Monster','Synchro Pendulum Effect Monster','Pendulum Effect Fusion Monster','Token','XYZ Pendulum Effect Monster']))] 
+filtered_main = yugioh_5d[(yugioh_5d['type'].isin(['Effect Monster','Normal Monster','Flip Effect Monster','Union Effect Monster','Pendulum Effect Monster','Tuner Monster','Gemini Monster','Normal Tuner Monster','Spirit Monster','Ritual Effect Monster','Skill Card','Ritual Monster','Toon Monster','Pendulum Normal Monster','Pendulum Tuner Effect Monster','Pendulum Effect Ritual Monster','Pendulum Flip Effect Monster']))]
+
+len(yugioh_5d)
+
+yugioh_5d.isna().sum()
+
+fd_na = yugioh_5d.dropna(subset=['level', 'attribute'])
+
+counts = yugioh_5d['formats'].value_counts()
+print("Conteggio dei valori univoci nella variabile 'attributo':")
+print(counts)
+
+# Raggruppa il DataFrame per razza e tipo, quindi contali
+conteggio_tipologia_per_razza = filtered_cards.groupby(['race', 'type']).size().reset_index(name='conteggio')
+
+mostri = conteggio_tipologia_per_razza[conteggio_tipologia_per_razza['type'] == 'Spell Card']
+trappole = conteggio_tipologia_per_razza[conteggio_tipologia_per_razza['type'] == 'Trap Card']
+
+print("Numero di carte di tipo 'Magia' per razza:")
+print(mostri)
+
+print("\nNumero di carte di tipo 'Trappola' per razza:")
+print(trappole)
+
+conteggio_tipologie = filtered_fusion['type'].value_counts().reset_index()
+conteggio_tipologie.columns = ['Tipo di Carta', 'Conteggio']
+
+conteggio_tipologie = conteggio_tipologie.sort_values(by='Conteggio', ascending=False)
+conteggio_tipologie
+
+conteggio_tipologie = filtered_main['type'].value_counts().reset_index()
+conteggio_tipologie.columns = ['Tipo di Carta', 'Conteggio']
+
+conteggio_tipologie = conteggio_tipologie.sort_values(by='Conteggio', ascending=False)
+conteggio_tipologie
+
+fig = px.histogram(fd_na, x='race',
+                   color='race')
+
+fig.update_layout(xaxis_title='Razza',
+                  yaxis_title='N° Carte',
+                 title_text="Quale razza è più frequente e quale meno?",
+                legend_title_text='Razza',
+                title_x=0.5,
+                width=1200,  
+                height=700)
+
+fig.update_xaxes(categoryorder='total descending')
+
+fig.show()
+
+yugioh_ze = sub_datasets['Yu-Gi-Oh! Zexal']
+
+len(yugioh_ze)
+
+yugioh_ze.isna().sum()
+
+zehal_na = yugioh_ze.dropna(subset=['level', 'attribute'])
+
+counts = yugioh_ze['formats'].value_counts()
+print("Conteggio dei valori univoci nella variabile 'attributo':")
+print(counts)
+
+filtered_cards = yugioh_ze[(yugioh_ze['type'].isin(['Spell Card', 'Trap Card'])) & (yugioh_ze['race'].isin(['Continuous', 'Counter','Countinuous','Normal','Equip','Field','Ritual','Quick-Play']))]
+filtered_fusion = yugioh_ze[(yugioh_ze['type'].isin(['Fusion Monster', 'Link Monster', 'XYZ Monster','Synchro Monster','Synchro Tuner Monster', 'Pendulum Effect Fusion Monster','Synchro Pendulum Effect Monster','Pendulum Effect Fusion Monster','Token','XYZ Pendulum Effect Monster']))] 
+filtered_main = yugioh_ze[(yugioh_ze['type'].isin(['Effect Monster','Normal Monster','Flip Effect Monster','Union Effect Monster','Pendulum Effect Monster','Tuner Monster','Gemini Monster','Normal Tuner Monster','Spirit Monster','Ritual Effect Monster','Skill Card','Ritual Monster','Toon Monster','Pendulum Normal Monster','Pendulum Tuner Effect Monster','Pendulum Effect Ritual Monster','Pendulum Flip Effect Monster']))]
+
+conteggio_tipologia_per_razza = filtered_cards.groupby(['race', 'type']).size().reset_index(name='conteggio')
+
+mostri = conteggio_tipologia_per_razza[conteggio_tipologia_per_razza['type'] == 'Spell Card']
+trappole = conteggio_tipologia_per_razza[conteggio_tipologia_per_razza['type'] == 'Trap Card']
+
+print("Numero di carte di tipo 'Magia' per razza:")
+print(mostri)
+
+print("\nNumero di carte di tipo 'Trappola' per razza:")
+print(trappole)
+
+conteggio_tipologie = filtered_fusion['type'].value_counts().reset_index()
+conteggio_tipologie.columns = ['Tipo di Carta', 'Conteggio']
+
+conteggio_tipologie = conteggio_tipologie.sort_values(by='Conteggio', ascending=False)
+conteggio_tipologie
+
+conteggio_tipologie = filtered_main['type'].value_counts().reset_index()
+conteggio_tipologie.columns = ['Tipo di Carta', 'Conteggio']
+
+conteggio_tipologie = conteggio_tipologie.sort_values(by='Conteggio', ascending=False)
+conteggio_tipologie
+
+fig = px.histogram(zehal_na, x='race',
+                   color='race')
+
+fig.update_layout(xaxis_title='Razza',
+                  yaxis_title='N° Carte',
+                 title_text="Quale razza è più frequente e quale meno?",
+                legend_title_text='Razza',
+                title_x=0.5,
+                width=1200, 
+                height=700)
+
+fig.update_xaxes(categoryorder='total descending')
+
+fig.show()
+
+yugioh_v = sub_datasets['Yu-Gi-Oh! Arc-V']
+
+len(yugioh_v)
+
+yugioh_v.isna().sum()
+
+v_na = yugioh_v.dropna(subset=['level', 'attribute'])
+
+counts = yugioh_v['formats'].value_counts()
+print("Conteggio dei valori univoci nella variabile 'attributo':")
+print(counts)
+
+filtered_cards = yugioh_v[(yugioh_v['type'].isin(['Spell Card', 'Trap Card'])) & (yugioh_v['race'].isin(['Continuous', 'Counter','Countinuous','Normal','Equip','Field','Ritual','Quick-Play']))]
+filtered_fusion = yugioh_v[(yugioh_v['type'].isin(['Fusion Monster', 'Link Monster', 'XYZ Monster','Synchro Monster','Synchro Tuner Monster', 'Pendulum Effect Fusion Monster','Synchro Pendulum Effect Monster','Pendulum Effect Fusion Monster','Token','XYZ Pendulum Effect Monster']))] 
+filtered_main = yugioh_v[(yugioh_v['type'].isin(['Effect Monster','Normal Monster','Flip Effect Monster','Union Effect Monster','Pendulum Effect Monster','Tuner Monster','Gemini Monster','Normal Tuner Monster','Spirit Monster','Ritual Effect Monster','Skill Card','Ritual Monster','Toon Monster','Pendulum Normal Monster','Pendulum Tuner Effect Monster','Pendulum Effect Ritual Monster','Pendulum Flip Effect Monster']))]
+
+conteggio_tipologia_per_razza = filtered_cards.groupby(['race', 'type']).size().reset_index(name='conteggio')
+
+mostri = conteggio_tipologia_per_razza[conteggio_tipologia_per_razza['type'] == 'Spell Card']
+trappole = conteggio_tipologia_per_razza[conteggio_tipologia_per_razza['type'] == 'Trap Card']
+
+print("Numero di carte di tipo 'Magia' per razza:")
+print(mostri)
+
+print("\nNumero di carte di tipo 'Trappola' per razza:")
+print(trappole)
+
+conteggio_tipologie = filtered_fusion['type'].value_counts().reset_index()
+conteggio_tipologie.columns = ['Tipo di Carta', 'Conteggio']
+
+conteggio_tipologie = conteggio_tipologie.sort_values(by='Conteggio', ascending=False)
+conteggio_tipologie
+
+conteggio_tipologie = filtered_main['type'].value_counts().reset_index()
+conteggio_tipologie.columns = ['Tipo di Carta', 'Conteggio']
+
+conteggio_tipologie = conteggio_tipologie.sort_values(by='Conteggio', ascending=False)
+conteggio_tipologie
+
+fig = px.histogram(v_na, x='race',
+                   color='race')
+
+fig.update_layout(xaxis_title='Razza',
+                  yaxis_title='N° Carte',
+                 title_text="Quale razza è più frequente e quale meno?",
+                legend_title_text='Razza',
+                title_x=0.5,
+                width=1200,  
+                height=700)
+
+fig.update_xaxes(categoryorder='total descending')
+
+fig.show()
+
+cards_scale = cards.dropna(subset=['scale'])
+category_orders = sorted(cards_scale['scale'].unique())
+
+fig = px.histogram(cards_scale, x='scale',
+                   color='scale',
+                  category_orders={'scale': category_orders})
+
+fig.update_layout(xaxis_title='Livello',
+                  yaxis_title='N° Carte',
+                 title_text="Distribuzione Livelli Mostri Pendulum",
+                legend_title_text='Livello',
+                title_x=0.5,
+                width=1200,  
+                height=700)
+
+fig.show()
+
+yugioh_link = sub_datasets['Yu-Gi-Oh! VRAINS']
+
+len(yugioh_link)
+
+yugioh_link.isna().sum()
+
+link_na = yugioh_link.dropna(subset=['level', 'attribute'])
+
+counts = yugioh_link['formats'].value_counts()
+print("Conteggio dei valori univoci nella variabile 'attributo':")
+print(counts)
+
+filtered_cards = yugioh_link[(yugioh_link['type'].isin(['Spell Card', 'Trap Card'])) & (yugioh_link['race'].isin(['Continuous', 'Counter','Countinuous','Normal','Equip','Field','Ritual','Quick-Play']))]
+filtered_fusion = yugioh_link[(yugioh_link['type'].isin(['Fusion Monster', 'Link Monster', 'XYZ Monster','Synchro Monster','Synchro Tuner Monster', 'Pendulum Effect Fusion Monster','Synchro Pendulum Effect Monster','Pendulum Effect Fusion Monster','Token','XYZ Pendulum Effect Monster']))] 
+filtered_main = yugioh_link[(yugioh_link['type'].isin(['Effect Monster','Normal Monster','Flip Effect Monster','Union Effect Monster','Pendulum Effect Monster','Tuner Monster','Gemini Monster','Normal Tuner Monster','Spirit Monster','Ritual Effect Monster','Skill Card','Ritual Monster','Toon Monster','Pendulum Normal Monster','Pendulum Tuner Effect Monster','Pendulum Effect Ritual Monster','Pendulum Flip Effect Monster']))]
+
+conteggio_tipologia_per_razza = filtered_cards.groupby(['race', 'type']).size().reset_index(name='conteggio')
+
+mostri = conteggio_tipologia_per_razza[conteggio_tipologia_per_razza['type'] == 'Spell Card']
+trappole = conteggio_tipologia_per_razza[conteggio_tipologia_per_razza['type'] == 'Trap Card']
+
+print("Numero di carte di tipo 'Magia' per razza:")
+print(mostri)
+
+print("\nNumero di carte di tipo 'Trappola' per razza:")
+print(trappole)
+
+conteggio_tipologie = filtered_fusion['type'].value_counts().reset_index()
+conteggio_tipologie.columns = ['Tipo di Carta', 'Conteggio']
+
+conteggio_tipologie = conteggio_tipologie.sort_values(by='Conteggio', ascending=False)
+conteggio_tipologie
+
+conteggio_tipologie = filtered_main['type'].value_counts().reset_index()
+conteggio_tipologie.columns = ['Tipo di Carta', 'Conteggio']
+
+conteggio_tipologie = conteggio_tipologie.sort_values(by='Conteggio', ascending=False)
+conteggio_tipologie
+
+fig = px.histogram(link_na, x='race',
+                   color='race')
+
+fig.update_layout(xaxis_title='Razza',
+                  yaxis_title='N° Carte',
+                 title_text="Quale razza è il frequente e quale meno?",
+                legend_title_text='Razza',
+                title_x=0.5,
+                width=1200,  
+                height=700)
+
+fig.update_xaxes(categoryorder='total descending')
+
+fig.show()
+
+cards_link = cards.dropna(subset=['linkval','linkmarkers'])
+category_orders = sorted(cards_link['linkval'].unique())
+
+fig = px.histogram(cards_link, x='linkval',
+                   color='linkval',
+                  category_orders={'linkval': category_orders})
+
+fig.update_layout(xaxis_title='Livello',
+                  yaxis_title='N° Carte',
+                 title_text="Distribuzione Linkval",
+                legend_title_text='Livello',
+                title_x=0.5,
+                width=1200,  
+                height=700)
+
+fig.show()
+
+
+fig = px.scatter(cards_link, x='atk',
+                 y='linkval',
+                 color='linkval',
+                 symbol= 'has_effect',
+                 hover_name = "linkmarkers")
+
+fig.update_layout(legend=dict(orientation="h")) 
+
+fig.update_layout(xaxis_title='Valore Attacco',
+                  yaxis_title='Valore Difesa',
+                  title_text="Confronto dei valori di attacco e difesa per livello",
+                  legend_title_text='Ha effetto',
+                  title_x=0.5,
+                  width=1200, 
+                  height=800)
+
+fig.show()
+
+yugioh_sevens = sub_datasets['Yu-Gi-Oh! Sevens']
+
+len(yugioh_sevens)
+
+yugioh_sevens.isna().sum()
+
+sevens_na = yugioh_sevens.dropna(subset=['level', 'attribute'])
+
+counts = yugioh_sevens['formats'].value_counts()
+print("Conteggio dei valori univoci nella variabile 'attributo':")
+print(counts)
+
+filtered_cards = yugioh_sevens[(yugioh_sevens['type'].isin(['Spell Card', 'Trap Card'])) & (yugioh_sevens['race'].isin(['Continuous', 'Counter','Countinuous','Normal','Equip','Field','Ritual','Quick-Play']))]
+filtered_fusion = yugioh_sevens[(yugioh_sevens['type'].isin(['Fusion Monster', 'Link Monster', 'XYZ Monster','Synchro Monster','Synchro Tuner Monster', 'Pendulum Effect Fusion Monster','Synchro Pendulum Effect Monster','Pendulum Effect Fusion Monster','Token','XYZ Pendulum Effect Monster']))] 
+filtered_main = yugioh_sevens[(yugioh_sevens['type'].isin(['Effect Monster','Normal Monster','Flip Effect Monster','Union Effect Monster','Pendulum Effect Monster','Tuner Monster','Gemini Monster','Normal Tuner Monster','Spirit Monster','Ritual Effect Monster','Skill Card','Ritual Monster','Toon Monster','Pendulum Normal Monster','Pendulum Tuner Effect Monster','Pendulum Effect Ritual Monster','Pendulum Flip Effect Monster']))]
+
+conteggio_tipologia_per_razza = filtered_cards.groupby(['race', 'type']).size().reset_index(name='conteggio')
+
+mostri = conteggio_tipologia_per_razza[conteggio_tipologia_per_razza['type'] == 'Spell Card']
+trappole = conteggio_tipologia_per_razza[conteggio_tipologia_per_razza['type'] == 'Trap Card']
+
+print("Numero di carte di tipo 'Magia' per razza:")
+print(mostri)
+
+print("\nNumero di carte di tipo 'Trappola' per razza:")
+print(trappole)
+
+conteggio_tipologie = filtered_fusion['type'].value_counts().reset_index()
+conteggio_tipologie.columns = ['Tipo di Carta', 'Conteggio']
+
+conteggio_tipologie = conteggio_tipologie.sort_values(by='Conteggio', ascending=False)
+conteggio_tipologie
+
+conteggio_tipologie = filtered_main['type'].value_counts().reset_index()
+conteggio_tipologie.columns = ['Tipo di Carta', 'Conteggio']
+
+conteggio_tipologie = conteggio_tipologie.sort_values(by='Conteggio', ascending=False)
+conteggio_tipologie
+
+fig = px.histogram(sevens_na, x='race',
+                   color='race')
+
+fig.update_layout(xaxis_title='Razza',
+                  yaxis_title='Frequenza',
+                 title_text="Quale razza è più frequente e quale meno?",
+                legend_title_text='Razza',
+                title_x=0.5,
+                width=1200, 
+                height=700)
+
+fig.update_xaxes(categoryorder='total descending')
+
+fig.show()
+
+filtered_cards = cards.loc[(cards['type'] == 'Skill Card')] 
+
+filtered_cards[['name', 'race', 'level','atk', 'def','formats','type','ocg_date','tcg_date']]
+
